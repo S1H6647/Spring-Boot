@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     @RequestMapping("auth/login")
     public String loginPage(){
-        return "A login page";
+        return "<h1>A login page</h1>";
     }
 }
