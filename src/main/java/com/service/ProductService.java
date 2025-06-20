@@ -2,6 +2,7 @@ package com.service;
 
 import com.model.Product;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,5 +46,19 @@ public class ProductService {
 
     public void addProduct(Product product){
         products.add(product);
+    }
+
+    public void updateProduct(Product product) {
+         int index = 0;
+         for (int i = 0; i < products.size(); i ++){
+             if (products.get(i).getProductId() == product.getProductId()){
+                 index = i;
+             }
+         }
+         products.set(index,product);
+    }
+
+    public void deleteProduct(int productId){
+        products.removeIf(p -> p.getProductId() == productId); //` Collection removeif
     }
 }
