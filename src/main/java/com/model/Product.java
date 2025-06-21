@@ -1,9 +1,16 @@
 package com.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.stereotype.Component;
 
 @Component
+@Entity
+@Table(name = "product")
 public class Product {
+
+    @Id
     private int productId;
     private String productName;
     private float price;

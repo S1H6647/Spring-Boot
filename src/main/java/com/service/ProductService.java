@@ -1,64 +1,38 @@
 package com.service;
 
 import com.model.Product;
+import com.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 @Service
 public class ProductService {
 
-    private final Product product;
-    List<Product> products = new ArrayList<>();
-
-     {
-        products.add(new Product(101, "Iphone", 120_000));
-        products.add(new Product(102, "Mouse", 1200));
-        products.add(new Product(103, "Asus TUF A15", 120_000));
-    }
-
-    public ProductService(Product product) {
-        this.product = product;
-    }
+    @Autowired
+    ProductRepository productRepository;
 
     public List<Product> getProducts(){
-        return products;
+        return productRepository.findAll();
     }
 
-    public Product getProductById(int id){
-        Product p;
-        for (Product product1 : products){
-            if (product1.getProductId() == id){
-                p = product1;
-                return p;
-            }
-        }
-
-        try {
-            throw new Exception();
-        } catch (Exception e) {
-            return new Product(000,"No item",000);
-        }
+    public Product getProductById(int productId){
+        return productRepository.findById(productId).orElse(new Product());
     }
 
     public void addProduct(Product product){
-        products.add(product);
+        productRepository.save(product);
     }
 
     public void updateProduct(Product product) {
-         int index = 0;
-         for (int i = 0; i < products.size(); i ++){
-             if (products.get(i).getProductId() == product.getProductId()){
-                 index = i;
-             }
-         }
-         products.set(index,product);
+         productRepository.save(product);
     }
 
+    //` save method checks whether the list has 'product' or not. If not it adds, and updates correspondingly
+
     public void deleteProduct(int productId){
-        products.removeIf(p -> p.getProductId() == productId); //` Collection removeif
+        productRepository.deleteById(productId);
     }
 }
